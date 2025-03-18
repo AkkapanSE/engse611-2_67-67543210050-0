@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .gallery {
+            text-align: center;
+        }
+
+        .main-image img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .thumbnails {
+            margin-top: 20px;
+        }
+
+        .thumbnails img {
+            width: 100px;
+            height: auto;
+            margin: 5px;
+            cursor: pointer;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        .thumbnails img:hover {
+            border-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery">
+        <div class="main-image">
+            <img id="mainImg" src="1.jpg" alt="Main Image">
+        </div>
+        <div class="thumbnails">
+            <img src="1.jpg" alt="Image 1" onclick="changeImage('1.jpg')">
+            <img src="2.jpg" alt="Image 2" onclick="changeImage('2.jpg')">
+            <img src="3.jpg" alt="Image 3" onclick="changeImage('3.jpg')">
+            <img src="4.jpg" alt="Image 4" onclick="changeImage('4.jpg')">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

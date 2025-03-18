@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมรวม</title>
+    <style>
+        /* สไตล์ทั่วไป */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .menu {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+            padding: 10px;
+        }
+        .menu button {
+            background-color: #444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .menu button:hover {
+            background-color: #555;
+        }
+        .content {
+            display: none;
+            padding: 20px;
+        }
+        .active {
+            display: block;
+        }
+
+        /* สไตล์ Image Gallery */
+        .gallery {
+            text-align: center;
+        }
+        .main-image img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+        }
+        .thumbnails {
+            margin-top: 20px;
+        }
+        .thumbnails img {
+            width: 100px;
+            height: auto;
+            margin: 5px;
+            cursor: pointer;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+        .thumbnails img:hover {
+            border-color: #333;
+        }
+
+        /* สไตล์ To-Do List */
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .input-section {
+            display: flex;
+            gap: 5px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 8px 12px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .add-btn {
+            background: #28a745;
+            color: white;
+        }
+        .add-btn:hover {
+            background: #218838;
+        }
+        .todo-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+        .todo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f1f1f1;
+            padding: 8px;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+        .check-btn {
+            background: #28a745;
+            color: white;
+        }
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+        .delete-all-btn {
+            margin-top: 10px;
+            background: #dc3545;
+            color: white;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- เมนูสำหรับเลือกโปรแกรม -->
+    <div class="menu">
+        <button onclick="showContent('gallery')">Image Gallery</button>
+        <button onclick="showContent('todo')">To-Do List</button>
+    </div>
+
+    <!-- Image Gallery -->
+    <div id="gallery" class="content">
+        <div class="gallery">
+            <div class="main-image">
+                <img id="mainImg" src="1.jpg" alt="Main Image">
+            </div>
+            <div class="thumbnails">
+                <img src="1.jpg" alt="Image 1" onclick="changeImage('1.jpg')">
+                <img src="2.jpg" alt="Image 2" onclick="changeImage('2.jpg')">
+                <img src="3.jpg" alt="Image 3" onclick="changeImage('3.jpg')">
+                <img src="4.jpg" alt="Image 4" onclick="changeImage('4.jpg')">
+            </div>
+        </div>
+    </div>
+
+    <!-- To-Do List -->
+    <div id="todo" class="content">
+        <div class="container">
+            <h2>To-Do List</h2>
+            <div class="input-section">
+                <input type="text" id="todo-input" placeholder="เพิ่มรายการใหม่...">
+                <button class="add-btn" onclick="addTodo()">เพิ่ม</button>
+            </div>
+            <ul class="todo-list" id="todo-list"></ul>
+            <button class="delete-all-btn" onclick="clearCompleted()">ลบรายการที่เสร็จแล้ว</button>
+        </div>
+    </div>
+
+    <script>
+        // ฟังก์ชันสำหรับสลับการแสดงเนื้อหา
+        function showContent(contentId) {
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => content.classList.remove('active'));
+            document.getElementById(contentId).classList.add('active');
+        }
+
+        // Image Gallery
+        function changeImage(src) {
+            document.getElementById('mainImg').src = src;
+        }
+
+        // To-Do List
+        function addTodo() {
+            let input = document.getElementById("todo-input");
+            let text = input.value.trim();
+            if (text === "") return;
+
+            let list = document.getElementById("todo-list");
+            let li = document.createElement("li");
+            li.classList.add("todo-item");
+
+            li.innerHTML = `
+                <span>${text}</span>
+                <div>
+                    <button class="check-btn" onclick="toggleComplete(this)">✔️</button>
+                    <button class="delete-btn" onclick="deleteTodo(this)">🗑️</button>
+                </div>
+            `;
+
+            list.appendChild(li);
+            input.value = "";
+        }
+
+        function toggleComplete(button) {
+            let li = button.parentElement.parentElement;
+            li.classList.toggle("completed");
+        }
+
+        function deleteTodo(button) {
+            let li = button.parentElement.parentElement;
+            li.remove();
+        }
+
+        function clearCompleted() {
+            let items = document.querySelectorAll(".completed");
+            items.forEach(item => item.remove());
+        }
+
+        // แสดง Image Gallery เป็นค่าเริ่มต้น
+        showContent('gallery');
+    </script>
+</body>
+</html>
